@@ -7,10 +7,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser())
+
 app.use(cors({
     origin:"https://hire-prep-ai-front-end-e985.vercel.app",
     credentials:true
 }))
+
+
 
 app.get("/",(req,res)=>{
     res.status(200).json({
