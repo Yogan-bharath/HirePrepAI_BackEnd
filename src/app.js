@@ -12,6 +12,11 @@ app.use(cors({
     credentials:true
 }))
 
+app.get("/",(req,res)=>{
+    res.status(200).json({
+        message:"Welcome to HirePrepAi"
+    })
+})
 app.use("/api/auth",authRouter)
 app.use("/api/interview",interViewRouter)
 
