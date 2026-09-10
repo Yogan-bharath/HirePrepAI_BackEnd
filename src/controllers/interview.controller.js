@@ -1,8 +1,9 @@
-const pdfParse = require("pdf-parse")
+const { CanvasFactory } = require("pdf-parse/worker");
+const pdfParse = require("pdf-parse");
 const {generateInterviewReport , generateResumePdf } = require("../services/ai.service")
 const interviewReportModel = require("../models/interviewReport.model")
 const generaterInterviewReportController = async(req,res)=>{
-    const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+    const resumeContent = await (new pdfParse.PDFParse({ data: Uint8Array.from(req.file.buffer), CanvasFactory })).getText();
     const {jobDescription,selfDescription} = req.body
     const interViewReportByAi = await generateInterviewReport({resume:resumeContent.text,jobDescription,selfDescription})
 
