@@ -8,12 +8,11 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser())
 
-// app.use(cors({
-//     origin:"https://hire-prep-ai-front-end-e985.vercel.app",
-//     credentials:true
-// }))
+app.use(cors({
+    origin:["http://localhost:3000","https://hire-prep-ai-front-end-e985.vercel.app"],
+    credentials:true
+}))
 // this can be used for local development and testing purposes, but it should be removed or modified for production deployment to ensure security and proper access control.
-app.use(cors()) 
 
 app.get("/",(req,res)=>{
     res.status(200).json({
