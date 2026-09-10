@@ -1,8 +1,9 @@
 require("dotenv").config();
 const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
-const puppeteer = require("puppeteer")
 zodToJsonSchema = require("zod-to-json-schema").default
+
+
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GEN_AI_API_KEY
@@ -452,6 +453,7 @@ Return ONLY the structured JSON response.
 };
 
 const generateResumeFromHtml = async (htmlContent) => {
+    const { default: puppeteer } = await import("puppeteer");
     try {
         
         const browser = await puppeteer.launch();
