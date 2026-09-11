@@ -19,6 +19,7 @@ app.get("/",(req,res)=>{
         message:"Welcome to HirePrepAi"
     })
 })
+
 app.use("/api/auth",authRouter)
 app.use("/api/interview",interViewRouter)
 
