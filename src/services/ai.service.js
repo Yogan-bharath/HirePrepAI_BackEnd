@@ -453,25 +453,45 @@ Return ONLY the structured JSON response.
 };
 
 const generateResumeFromHtml = async (htmlContent) => {
-    const { default: puppeteer } = await import("puppeteer");
     try {
-        
-        const browser = await puppeteer.launch();
+        const { default: puppeteer } = await import("puppeteer-core");
+        const { default: chromium } = await import("@sparticuz/chromium");
+
+        const browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: true,
+        });
+
         const page = await browser.newPage();
-        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-        const pdfBuffer = await page.pdf({ format: 'A4',margin:{
-            top:'20mm',
-            bottom:'20mm',
-            left:'15mm',
-            right:'15mm'
-        } });
+
+        await page.setContent(htmlContent, {
+            waitUntil: "networkidle0"
+        });
+
+        const pdfBuffer = await page.pdf({
+            format: "A4",
+            margin: {
+                top: "20mm",
+                bottom: "20mm",
+                left: "15mm",
+                right: "15mm"
+            },
+            printBackground: true
+        });
+
         await browser.close();
+
         return pdfBuffer;
 
-    }catch(error){
-        throw new Error("Failed to generate PDF from HTML content: " + error.message);
+    } catch (error) {
+        throw new Error(
+            "Failed to generate PDF from HTML content: " +
+            error.message
+        );
     }
-}
+};
 
 const generateResumePdf = async ({resume,selfDescription,jobDescription}) => {
     const resumeSchema = z.object({
